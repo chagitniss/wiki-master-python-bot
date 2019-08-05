@@ -17,16 +17,18 @@ dispatcher = updater.dispatcher
 logging.basicConfig(
     format='[%(levelname)s %(asctime)s %(module)s:%(lineno)d] %(message)s',
     level=logging.INFO)
-
 logger = logging.getLogger(__name__)
+
+game = model.Game()
 
 
 def start(bot, update):
     chat_id = update.message.chat_id
     logger.info(f"> Start chat #{chat_id}")
 
-    settings.page_title = model.get_random_title()
-    settings.Expectation_button_click = True
+    game.add_user(chat_id)
+    page_title = game.get_page_title(chat_id)
+    # settings.Expectation_button_click = True
 
     keyboard = [[InlineKeyboardButton("Yes", callback_data='2'), InlineKeyboardButton("No", callback_data='3')]]
     reply_markup = InlineKeyboardMarkup(keyboard)
@@ -39,7 +41,7 @@ def start(bot, update):
 
     bot.send_message(chat_id=chat_id,
                      text=f"Let's start!\n"
-                          f"Have you heard of '{settings.page_title}'?",
+                          f"Have you heard of '{page_title}'?",
                      reply_markup=reply_markup)
 
 
@@ -48,8 +50,7 @@ def respond(bot, update):
     text = update.message.text
     logger.info(f"= Got on chat #{chat_id}: {text!r}")
 
-    message = model.test_word(text)
-
+    message = game.test_word(text, chat_id)
     bot.send_message(chat_id=chat_id, text=message)
 
 
@@ -59,15 +60,11 @@ def button(bot, update):
 
     if query.data == '1':
 
-        logger.info(f"= Got on chat #{chat_id}: pressed new game button")
-
-        keyboard = [[InlineKeyboardButton("Yes", callback_data='2'), InlineKeyboardButton("No", callback_data='3')]]
-        reply_markup = InlineKeyboardMarkup(keyboard)
-        bot.send_message(chat_id=chat_id, text=f"have you heard of {settings.page_title}", reply_markup=reply_markup)
+        pass
 
     elif query.data == '2':
         logger.info(f"= Got on chat #{chat_id}: pressed Yes button")
-        message = model.test_word('yes')
+        message = game.test_button_click('yes', chat_id)
 
         if 'your turn' in message:
             bot.send_message(chat_id=chat_id, text="great!\nI just checked what Wikipedia knows about it.\n")
@@ -75,16 +72,15 @@ def button(bot, update):
 
     elif query.data == '3':
         logger.info(f"= Got on chat #{chat_id}: pressed No button")
-        message = model.test_word('no')
+        message = game.test_button_click('no', chat_id)
 
-        if not message:
-            bot.send_message(chat_id=chat_id, text=settings.INVALID_ANSWERS)
+        if 'invalid' in message:
+            bot.send_message(chat_id=chat_id, text=message)
 
         else:
-            keyboard = [[InlineKeyboardButton( "Yes", callback_data='2' ), InlineKeyboardButton( "No", callback_data='3' )]]
-            reply_markup = InlineKeyboardMarkup( keyboard )
-            bot.send_message( chat_id=chat_id, text=message, reply_markup=reply_markup )
-
+            keyboard = [[InlineKeyboardButton("Yes", callback_data='2'), InlineKeyboardButton("No", callback_data='3')]]
+            reply_markup = InlineKeyboardMarkup(keyboard)
+            bot.send_message(chat_id=chat_id, text=message, reply_markup=reply_markup)
 
     # else:
     #     keyboard = [[InlineKeyboardButton("Yes", callback_data='2'), InlineKeyboardButton("No", callback_data='3')]]
