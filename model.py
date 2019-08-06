@@ -1,4 +1,5 @@
 import csv
+import re
 from collections import defaultdict
 from random import randrange
 import wikipedia
@@ -8,9 +9,33 @@ import random
 
 def get_titles():
     with open("minimal_data.csv", "r", encoding='utf-8') as f:
-        reader = csv.reader( f, delimiter=",")
+        reader = csv.reader(f, delimiter=",")
         rows = [row for idx, row in enumerate(reader)]
         return rows
+
+
+def common_words_parser():
+    common_words = set()
+    with open("common_words.txt", 'r') as f:
+        for word in f:
+            common_words.add(word[:-1])
+    return common_words
+
+
+def extract_win_gifs():
+    win_gifs = []
+    with open("win_gifs.txt", "r") as f:
+        for url in f.readlines():
+            win_gifs.append(url)
+    return win_gifs
+
+
+def extract_fail_gifs():
+    fail_gifs = []
+    with open("fail_gifs.txt", "r") as f:
+        for url in f.readlines():
+            fail_gifs.append(url)
+    return fail_gifs
 
 
 class Pages:
@@ -19,6 +44,9 @@ class Pages:
         # wikipedia.set_lang("he")
         wikipedia.set_lang("en")
         self.titles = get_titles()
+        self.common_words = common_words_parser()
+        self.win_gifs = extract_win_gifs()
+        self.fail_gifs = extract_fail_gifs()
 
     def get_random_title(self):
         rand = randrange(1, 955)
@@ -28,6 +56,12 @@ class Pages:
     def get_page_summary(self, title)->str:
         page_content = wikipedia.summary(title)
         return page_content
+
+    def get_random_win_gif(self):
+        return random.choice(self.win_gifs)
+
+    def get_random_fail_gif(self):
+        return random.choice(self.fail_gifs)
 
 
 class Game:
@@ -52,7 +86,16 @@ class Game:
         content = wikipedia.page(self.users_info_dict[id]['page_title'])
         self.users_info_dict[id]['page_content'] = content
 
-    def test_button_click(self, word, id):  #when user click button
+    def get_info(self, id):
+        return wikipedia.summary(self.users_info_dict[id]['page_title'], sentences=3) + '\n' + self.users_info_dict[id][
+            'page_content'].url
+
+    def text_search(self, text, page_content):
+        if re.search(r"\b" + re.escape(text) + r"\b", page_content):
+            return True
+        return False
+
+    def test_button_click(self, word, id):  # when user click button
         word = word.lower()
 
         if self.users_info_dict[id]['state'] == "button_click":
@@ -92,8 +135,38 @@ class Game:
             if text == k:
                 return random.choice(settings.TITLE_RESPONSES)
 
-        else:
-            return text
+        if text in self.pages.common_words:
+            return random.choice(settings.COMMON_RESPONSES)
+
+        # ------ finally, good word ----------
+        if self.text_search(text, self.users_info_dict[id]['page_content'].content.lower()):  # The word does appear
+                                                                                            # on the Wikipedia page
+            [self.users_info_dict[id]['played_guesses'].append(w) for w in split]
+            self.users_info_dict[id]["score"] += settings.POINTS_PER_GOOD_GUESS
+
+            self.users_info_dict[id]["good_guesses"] += 1
+
+            if self.users_info_dict[id]["good_guesses"] == settings.GOOD_GUESSES:  # win the game!
+                curr_score = self.users_info_dict[id]['score']
+                link = self.pages.get_random_win_gif()
+                return random.choice(settings.WIN_MESSAGE).format(curr_score, link)
+
+            remained_guesses = settings.GOOD_GUESSES - self.users_info_dict[id]['good_guesses']
+            return random.choice(settings.SUCCESS_RESPONSES).format(remained_guesses)
+
+        else:  # The word does not appear on the Wikipedia page
+            self.users_info_dict[id]["wrong_guesses"] += 1
+            self.users_info_dict[id]["score"] += settings.POINTS_PER_WRONG_GUESS
+
+            if self.users_info_dict[id]['wrong_guesses'] == settings.WRONG_GUESSES:  # fail the game...
+                curr_score = self.users_info_dict[id]['score']
+                link = self.pages.get_random_fail_gif()
+                return random.choice(settings.LOSE_MESSAGE).format(curr_score, link)
+
+            curr_score = settings.WRONG_GUESSES - self.users_info_dict[id]['wrong_guesses']
+            return random.choice(settings.FAIL_MESSAGE).format(curr_score)
+
+
 
 
 
