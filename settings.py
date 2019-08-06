@@ -39,9 +39,9 @@ COMMON_RESPONSES = ["C'mon, This word is way too common...",
 
 
 SUCCESS_RESPONSES = ["Way to go! you'll finish in {} guesses.",
-                     "Alrighty! only {} words to guess.",
+                     "Alrighty! only {} more to guess.",
                      "You Rock! guess me {} more.",
-                     "Your Knowledge is astounding. only {} more words",
+                     "Your Knowledge is astounding. only {} more",
                      "I worship your brain! c'mon {} and you're done."]
 
 
@@ -51,7 +51,7 @@ WIN_MESSAGE = ["You win!!!!!\nYour score is {}.\nurl{}", "and that's a win! with
                  "aaaaand you win! {} points earned this round! \nurl{}"]
 
 
-LOSE_MESSAGE = ["Unfortunately, You failed this round.\n Your score is {}\nwould you like to hear about this jsa? url{}",
+LOSE_MESSAGE = ["Unfortunately, You failed this round.\n Your score is {}\nwould you like to hear about this? url{}",
                 "Bad news, game failure. You're out with a score of {}.\nwanna learn about it? url{}",
                 "What a shame, you failed. maybe next round.\nyou got {} points.url{}",
                 "So did you really know this one? I guess not, you failed! \n{} points for you. url{}"]
@@ -63,10 +63,10 @@ FAIL_MESSAGE = ["Nope! You're wrong. tries left: {}",
                 "Nah, Not a good guess this one. {} more mistakes",
                 "You sure you know it? only {} errors left."]
 
-HELP_MESSAGE = "Hello! I am the WikiMaster bot.\n" \
+HELP_MESSAGE = "Hello! I'm the WikiMaster bot.\n" \
                "This game I suggest is for those who want to prove their knowledge at any price,\n" \
                "Even at a heavy price of playing against Wikipedia, the site that knows everything!\n" \
-               "Guess three words related to the Wikipedia title I'll get you.\n" \
-               "10 points for correct guessing.\n" \
-               "watch out! You have only 3 options to make mistakes,\n" \
-               "And five points are reduced for each mistake.\nclick to play!"
+               "\nGuess three words related to the Wikipedia title I'll get you." \
+               " 10 points for correct guessing.\n\n" \
+               "watch out! You have only 3 options to make mistakes, " \
+               "and 5 points are reduced for each mistake.\n\nclick to play!"
