@@ -38,7 +38,7 @@ def extract_fail_gifs():
     return fail_gifs
 
 
-class Pages:
+class DB:
 
     def __init__(self):
         # wikipedia.set_lang("he")
@@ -68,7 +68,7 @@ class Game:
 
     def __init__(self):
         self.users_info_dict = defaultdict()
-        self.pages = Pages()
+        self.db = DB()
 
     def add_user(self, id):
         self.users_info_dict[id] = defaultdict()
@@ -79,7 +79,7 @@ class Game:
         self.users_info_dict[id]['played_guesses'] = []
 
     def get_page_title(self, id):
-        self.users_info_dict[id]['page_title'] = self.pages.get_random_title()
+        self.users_info_dict[id]['page_title'] = self.db.get_random_title()
         return self.users_info_dict[id]['page_title']
 
     def get_page_content(self, id):
@@ -135,7 +135,7 @@ class Game:
             if text == k:
                 return random.choice(settings.TITLE_RESPONSES)
 
-        if text in self.pages.common_words:
+        if text in self.db.common_words:
             return random.choice(settings.COMMON_RESPONSES)
 
         # ------ finally, good word ----------
@@ -148,7 +148,7 @@ class Game:
 
             if self.users_info_dict[id]["good_guesses"] == settings.GOOD_GUESSES:  # win the game!
                 curr_score = self.users_info_dict[id]['score']
-                link = self.pages.get_random_win_gif()
+                link = self.db.get_random_win_gif()
                 return random.choice(settings.WIN_MESSAGE).format(curr_score, link)
 
             remained_guesses = settings.GOOD_GUESSES - self.users_info_dict[id]['good_guesses']
@@ -160,7 +160,7 @@ class Game:
 
             if self.users_info_dict[id]['wrong_guesses'] == settings.WRONG_GUESSES:  # fail the game...
                 curr_score = self.users_info_dict[id]['score']
-                link = self.pages.get_random_fail_gif()
+                link = self.db.get_random_fail_gif()
                 return random.choice(settings.LOSE_MESSAGE).format(curr_score, link)
 
             curr_score = settings.WRONG_GUESSES - self.users_info_dict[id]['wrong_guesses']
