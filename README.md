@@ -7,6 +7,14 @@ even at a heavy price of playing against Wikipedia, the site that knows everythi
 ## Screenshots
 **Winning Game**
 
+![1](screenshots/start-game.png)
+
+![2](screenshots/Paul-McCartney2.PNG)
+
+![3](screenshots/win-gif.png)
+
+![4](screenshots/Paul-McCartney1.PNG)
+
 
 ## How to Run This Bot
 ### Prerequisites
