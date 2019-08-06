@@ -46,9 +46,8 @@ SUCCESS_RESPONSES = ["Way to go! you'll finish in {} guesses.",
 
 
 WIN_MESSAGE = ["You win!!!!!\nYour score is {}.\nurl{}", "and that's a win! with a score of {}\nurl{}",
-                 "BAM! win! with {} points this round.\nurl{}",
-                 "clap your hands for this one! you won this round with {} points.\nurl{}",
-                 "aaaaand you win! {} points earned this round! \nurl{}"]
+               "BAM! win! with {} points this round.\nurl{}",
+               "aaaaand you win! {} points earned this round! \nurl{}"]
 
 
 LOSE_MESSAGE = ["Unfortunately, You failed this round.\n Your score is {}\nwould you like to hear about this? url{}",

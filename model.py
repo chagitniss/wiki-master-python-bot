@@ -131,9 +131,13 @@ class Game:
             if w in self.users_info_dict[id]['played_guesses']:
                 return random.choice(settings.REPEATING_GUESS)
 
+        # for k in self.users_info_dict[id]['page_title'].lower().split():
+        #     if text == k:
+        #         return random.choice(settings.TITLE_RESPONSES)
         for k in self.users_info_dict[id]['page_title'].lower().split():
-            if text == k:
-                return random.choice(settings.TITLE_RESPONSES)
+            for w in split:
+                if w == k:
+                    return random.choice( settings.TITLE_RESPONSES )
 
         if text in self.db.common_words:
             return random.choice(settings.COMMON_RESPONSES)

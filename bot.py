@@ -21,6 +21,7 @@ logger = logging.getLogger(__name__)
 
 game = model.Game()
 
+
 def send_gif(bot, image_url, chat_id):
     bot.sendChatAction(chat_id=chat_id, action=ChatAction.UPLOAD_PHOTO)
     bot.sendDocument(chat_id=chat_id, document=image_url)
