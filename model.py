@@ -38,7 +38,7 @@ def extract_fail_gifs():
     return fail_gifs
 
 
-class localDB:
+class DB:
 
     def __init__(self):
         # wikipedia.set_lang("he")
