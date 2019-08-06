@@ -9,11 +9,23 @@ even at a heavy price of playing against Wikipedia, the site that knows everythi
  - Python 3.7
  - wikipedia library
  
- # Setup
+### Setup
 - Clone this repo from github
 
 - Get a BOT ID from the botfather.
 
 - Create a secret_settings.py file:
+     ```
+     BOT_TOKEN = "your-bot-token-here"
+     ```
+### Run   
+To run the bot use:
+   ```
+   python bot.py
+   ```
+### Notes
+- You get a large amount of data on the first run
 
-  BOT_TOKEN = "your-bot-token-here"
+# Credits and References
+- [Telegram Docs](https://core.telegram.org/bots)
+- [Wikipedia Documentation](https://wikipedia.readthedocs.io/en/latest/code.html)
