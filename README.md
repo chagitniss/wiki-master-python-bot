@@ -1,7 +1,7 @@
 # WikiMaster
 TelegramBot Game - Test your general knowledge.
 
-This game I suggest is for those who want to prove their knowledge at any price, 
+This game is for those who want to prove their knowledge at any price, 
 even at a heavy price of playing against Wikipedia, the site that knows everything!
 
 ## How to Run This Bot
