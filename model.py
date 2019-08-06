@@ -38,7 +38,7 @@ def extract_fail_gifs():
     return fail_gifs
 
 
-class DB:
+class localDB:
 
     def __init__(self):
         # wikipedia.set_lang("he")
@@ -68,7 +68,7 @@ class Game:
 
     def __init__(self):
         self.users_info_dict = defaultdict()
-        self.db = DB()
+        self.db = localDB()
 
     def add_user(self, id):
         self.users_info_dict[id] = defaultdict()
