@@ -68,7 +68,7 @@ class Game:
 
     def __init__(self):
         self.users_info_dict = defaultdict()
-        self.db = localDB()
+        self.db = DB()
 
     def add_user(self, id):
         self.users_info_dict[id] = defaultdict()
