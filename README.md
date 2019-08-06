@@ -4,6 +4,10 @@ TelegramBot Game - Test your general knowledge.
 This game is for those who want to prove their knowledge at any price, 
 even at a heavy price of playing against Wikipedia, the site that knows everything!
 
+## Screenshots
+**Winning Game**
+
+
 ## How to Run This Bot
 ### Prerequisites
  - Python 3.7
